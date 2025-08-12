@@ -1,6 +1,6 @@
 export class Decimal {
   private value: string;
-  private static PRECISION = 15;
+  private static PRECISION = 50;
 
   constructor(val: string | number) {
     if (typeof val === 'number') {
@@ -15,7 +15,11 @@ export class Decimal {
   private normalize() {
     let num = parseFloat(this.value);
     if (!isFinite(num)) num = 0;
-    this.value = num.toString();
+    this.value = this.roundToPrecision(num);
+  }
+
+  private roundToPrecision(num: number): string {
+    return parseFloat(num.toPrecision(Decimal.PRECISION)).toString();
   }
 
   static fromString(str: string): Decimal {
@@ -24,34 +28,34 @@ export class Decimal {
 
   add(other: Decimal): Decimal {
     const result = parseFloat(this.value) + parseFloat(other.value);
-    return new Decimal(result);
+    return new Decimal(this.roundToPrecision(result));
   }
 
   subtract(other: Decimal): Decimal {
     const result = parseFloat(this.value) - parseFloat(other.value);
-    return new Decimal(result);
+    return new Decimal(this.roundToPrecision(result));
   }
 
   multiply(other: Decimal): Decimal {
     const result = parseFloat(this.value) * parseFloat(other.value);
-    return new Decimal(result);
+    return new Decimal(this.roundToPrecision(result));
   }
 
   divide(other: Decimal): Decimal {
     const divisor = parseFloat(other.value);
     if (Math.abs(divisor) < 1e-100) return new Decimal(0);
     const result = parseFloat(this.value) / divisor;
-    return new Decimal(result);
+    return new Decimal(this.roundToPrecision(result));
   }
 
   sqrt(): Decimal {
     const num = parseFloat(this.value);
-    return new Decimal(Math.sqrt(Math.abs(num)));
+    return new Decimal(this.roundToPrecision(Math.sqrt(Math.abs(num))));
   }
 
   pow(exp: number): Decimal {
     const base = parseFloat(this.value);
-    return new Decimal(Math.pow(base, exp));
+    return new Decimal(this.roundToPrecision(Math.pow(base, exp)));
   }
 
   isLessThan(other: Decimal): boolean {
@@ -59,15 +63,15 @@ export class Decimal {
   }
 
   abs(): Decimal {
-    return new Decimal(Math.abs(parseFloat(this.value)));
+    return new Decimal(this.roundToPrecision(Math.abs(parseFloat(this.value))));
   }
 
   toString(): string {
     const num = parseFloat(this.value);
     if (Math.abs(num) > 1e6 || (Math.abs(num) < 0.001 && num !== 0)) {
-      return num.toExponential(6);
+      return num.toExponential(Decimal.PRECISION - 1);
     }
-    return num.toFixed(6).replace(/\.?0+$/, '');
+    return parseFloat(num.toPrecision(Decimal.PRECISION)).toString();
   }
 
   toNumber(): number {

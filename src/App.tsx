@@ -23,16 +23,16 @@ const App: React.FC = () => {
   const [showTrails, setShowTrails] = useState(true);
   const [maxTrailLength, setMaxTrailLength] = useState(2000);
 
-  const G = new Decimal('1');
+  const G = new Decimal('0.0000000000667');
   
   const [simulationState, setSimulationState] = useState<SimulationState>({
     bodies: [
       {
         id: 0,
         name: 'Body 1',
-        mass: new Decimal('1'),
+        mass: new Decimal('10000000000'),
         position: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0'), y: new Decimal('0.2'), z: new Decimal('0') },
+        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
         acceleration: Vector3DUtils.zero(),
         color: '#3B82F6',
         radius: 8,
@@ -41,9 +41,9 @@ const App: React.FC = () => {
       {
         id: 1,
         name: 'Body 2',
-        mass: new Decimal('1'),
-        position: { x: new Decimal('100'), y: new Decimal('0'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0'), y: new Decimal('-0.2'), z: new Decimal('0') },
+        mass: new Decimal('10000000000'),
+        position: { x: new Decimal('20'), y: new Decimal('0'), z: new Decimal('0') },
+        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
         acceleration: Vector3DUtils.zero(),
         color: '#EF4444',
         radius: 8,
@@ -52,9 +52,9 @@ const App: React.FC = () => {
       {
         id: 2,
         name: 'Body 3',
-        mass: new Decimal('2'),
-        position: { x: new Decimal('-50'), y: new Decimal('86.6'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0.1732'), y: new Decimal('-0.1'), z: new Decimal('0') },
+        mass: new Decimal('10000000000'),
+        position: { x: new Decimal('10'), y: new Decimal('17.3205'), z: new Decimal('0') },
+        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
         acceleration: Vector3DUtils.zero(),
         color: '#F59E0B',
         radius: 10,
@@ -82,12 +82,10 @@ const App: React.FC = () => {
 
     const dt = new Decimal(timeStep);
     const newState = { ...simulationState };
-    
-    // Update physics
+
     const updatedBodies = physicsEngineRef.current.updateBodies(newState.bodies, dt);
     
-    // Handle trails
-    updatedBodies.forEach((body, index) => {
+    updatedBodies.forEach((body, _index) => {
       if (showTrails && newState.totalSteps % Math.max(1, Math.floor(simulationSpeed / 10)) === 0) {
         body.trail.push({
           x: body.position.x.toNumber(),
@@ -199,7 +197,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-gray-900 text-white flex flex-col">
+    <div className="w-full max-h-screen bg-gray-900 text-white flex flex-col">
       <Controls
         isRunning={isRunning}
         onToggleSimulation={toggleSimulation}
@@ -227,7 +225,7 @@ const App: React.FC = () => {
         />
       )}
 
-      <div className="flex-1 flex">
+      <div className="flex-1 flex h-full">
         <CanvasPlane
           bodies={simulationState.bodies}
           simulationTime={simulationState.time.toString()}

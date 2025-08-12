@@ -98,7 +98,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       y: centerY + (y + offsetY) * scale
     });
     
-    // Draw grid
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
     ctx.lineWidth = 1;
     const gridSize = Math.max(10, Math.floor(100 / scale));
@@ -123,7 +122,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       }
     }
     
-    // Draw trails
     if (showTrails) {
       bodies.forEach((body) => {
         if (body.trail.length > 1) {
@@ -149,7 +147,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       });
     }
     
-    // Draw bodies
     bodies.forEach((body) => {
       const pos = transform(body.position.x.toNumber(), body.position.y.toNumber());
       
@@ -161,7 +158,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       ctx.fill();
       ctx.shadowBlur = 0;
       
-      // Velocity vector
       ctx.strokeStyle = body.color + 'DD';
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -173,7 +169,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       ctx.lineTo(vEnd.x, vEnd.y);
       ctx.stroke();
       
-      // Arrow head
       const angle = Math.atan2(vEnd.y - pos.y, vEnd.x - pos.x);
       const arrowLength = 10;
       ctx.beginPath();
@@ -189,7 +184,6 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       );
       ctx.stroke();
       
-      // Labels
       ctx.fillStyle = body.color;
       ctx.font = 'bold 14px Arial';
       ctx.fillText(body.name, pos.x + 20, pos.y - 20);
@@ -198,8 +192,7 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       ctx.font = '10px Arial';
       ctx.fillText(`m=${body.mass.toString()}`, pos.x + 20, pos.y - 5);
     });
-    
-    // Status info
+
     ctx.fillStyle = 'white';
     ctx.font = '16px Arial';
     ctx.fillText(`Time: ${simulationTime}s`, 10, 25);
