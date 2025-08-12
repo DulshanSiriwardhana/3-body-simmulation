@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { Body, BoundingBox } from '../types/Body';
+import { formatDecimal } from '@/utils/Formatter';
 
 interface CanvasProps {
   bodies: Body[];
@@ -190,7 +191,7 @@ const CanvasPlane: React.FC<CanvasProps> = ({
       
       ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
       ctx.font = '10px Arial';
-      ctx.fillText(`m=${body.mass.toString()}`, pos.x + 20, pos.y - 5);
+      ctx.fillText(`m=${formatDecimal(body.mass)}`, pos.x + 20, pos.y - 5);
     });
 
     ctx.fillStyle = 'white';

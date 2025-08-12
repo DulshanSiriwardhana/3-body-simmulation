@@ -7,6 +7,8 @@ import Controls from './components/Controls';
 import Settings from './components/Settings';
 import InfoPanel from './components/InfoPanel';
 import CanvasPlane from './components/Canvas';
+import { OrbittingVelocityCalc } from './utils/OrbittingVelocityCalc';
+//import { OrbittingVelocityCalc } from './utils/OrbittingVelocityCalc';
 
 const App: React.FC = () => {
   const animationRef = useRef<number>();
@@ -26,41 +28,41 @@ const App: React.FC = () => {
   const G = new Decimal('0.0000000000667');
   
   const [simulationState, setSimulationState] = useState<SimulationState>({
-    bodies: [
-      {
-        id: 0,
-        name: 'Body 1',
-        mass: new Decimal('10000000000'),
-        position: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-        acceleration: Vector3DUtils.zero(),
-        color: '#3B82F6',
-        radius: 8,
-        trail: []
-      },
-      {
-        id: 1,
-        name: 'Body 2',
-        mass: new Decimal('10000000000'),
-        position: { x: new Decimal('20'), y: new Decimal('0'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-        acceleration: Vector3DUtils.zero(),
-        color: '#EF4444',
-        radius: 8,
-        trail: []
-      },
-      {
-        id: 2,
-        name: 'Body 3',
-        mass: new Decimal('10000000000'),
-        position: { x: new Decimal('10'), y: new Decimal('17.3205'), z: new Decimal('0') },
-        velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-        acceleration: Vector3DUtils.zero(),
-        color: '#F59E0B',
-        radius: 10,
-        trail: []
-      }
-    ],
+      bodies: [
+        {
+          id: 0,
+          name: 'Body 1',
+          mass: new Decimal('10000000000'),
+          position: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
+          velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
+          acceleration: Vector3DUtils.zero(),
+          color: '#3B82F6',
+          radius: 8,
+          trail: []
+        },
+        {
+          id: 1,
+          name: 'Body 2',
+          mass: new Decimal('10000000'),
+          position: { x: new Decimal('20'), y: new Decimal('0'), z: new Decimal('0') },
+          velocity: { x: new Decimal('0'), y: OrbittingVelocityCalc(G, new Decimal(10000000000), new Decimal(20)), z: new Decimal('0') },
+          acceleration: Vector3DUtils.zero(),
+          color: '#EF4444',
+          radius: 0.8,
+          trail: []
+        },
+        // {
+        //   id: 1,
+        //   name: 'Body 2',
+        //   mass: new Decimal('10000000000'),
+        //   position: { x: new Decimal('10'), y: new Decimal('17.3205'), z: new Decimal('0') },
+        //   velocity: { x: new Decimal('0.2'), y: new Decimal('0'), z: new Decimal('0') },
+        //   acceleration: Vector3DUtils.zero(),
+        //   color: '#008000',
+        //   radius: 8,
+        //   trail: []
+        // }
+      ],
     time: new Decimal('0'),
     totalSteps: 0
   });
@@ -150,9 +152,9 @@ const App: React.FC = () => {
         {
           id: 0,
           name: 'Body 1',
-          mass: new Decimal('1'),
+          mass: new Decimal('10000000000'),
           position: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
-          velocity: { x: new Decimal('0'), y: new Decimal('0.2'), z: new Decimal('0') },
+          velocity: { x: new Decimal('0'), y: new Decimal('0'), z: new Decimal('0') },
           acceleration: Vector3DUtils.zero(),
           color: '#3B82F6',
           radius: 8,
@@ -161,25 +163,25 @@ const App: React.FC = () => {
         {
           id: 1,
           name: 'Body 2',
-          mass: new Decimal('1'),
-          position: { x: new Decimal('100'), y: new Decimal('0'), z: new Decimal('0') },
-          velocity: { x: new Decimal('0'), y: new Decimal('-0.2'), z: new Decimal('0') },
+          mass: new Decimal('10000000'),
+          position: { x: new Decimal('20'), y: new Decimal('0'), z: new Decimal('0') },
+          velocity: { x: new Decimal('0'), y: OrbittingVelocityCalc(G, new Decimal(10000000000), new Decimal(20)), z: new Decimal('0') },
           acceleration: Vector3DUtils.zero(),
           color: '#EF4444',
-          radius: 8,
+          radius: 0.8,
           trail: []
         },
-        {
-          id: 2,
-          name: 'Body 3',
-          mass: new Decimal('2'),
-          position: { x: new Decimal('-50'), y: new Decimal('86.6'), z: new Decimal('0') },
-          velocity: { x: new Decimal('0.1732'), y: new Decimal('-0.1'), z: new Decimal('0') },
-          acceleration: Vector3DUtils.zero(),
-          color: '#F59E0B',
-          radius: 10,
-          trail: []
-        }
+        // {
+        //   id: 1,
+        //   name: 'Body 2',
+        //   mass: new Decimal('10000000000'),
+        //   position: { x: new Decimal('10'), y: new Decimal('20'), z: new Decimal('0') },
+        //   velocity: { x: new Decimal('0.2'), y: new Decimal('0'), z: new Decimal('0') },
+        //   acceleration: Vector3DUtils.zero(),
+        //   color: '#008000',
+        //   radius: 8,
+        //   trail: []
+        // }
       ],
       time: new Decimal('0'),
       totalSteps: 0
